@@ -1641,11 +1641,7 @@ function traduzirErro(msg) {
 }
 
 function getServerDate() {
-  return sb.rpc("get_server_time")
-    .then(function(res) {
-      if(res.data && res.data.date) return res.data.date;
-      return toStr(new Date());
-    }).catch(function() { return toStr(new Date()); });
+  return Promise.resolve(toStr(new Date()));
 }
 
 function iniciarApp(user) {
