@@ -1722,15 +1722,6 @@ ${datasHist.length?`<div class="sec"><div class="sec-title">Histórico diário</
 </table></div>
 <div class="ftr"><span>Dashboard de Vendas · Rennova</span><span>${nomeMes}</span><span>Gerado em ${fmtLonga(dataHoje)} às ${hora}</span></div>
 
-<script>
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js')
-      .then(function(reg) { console.log('SW registrado:', reg.scope); })
-      .catch(function(err) { console.log('SW erro:', err); });
-  });
-}
-</script>
 </body></html>`;
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -1841,6 +1832,7 @@ function mostrarSucesso() {
 
 // ══ EVENT LISTENERS (sem onclick inline) ══
 window.addEventListener("load", function() {
+  try {
 
   // Tabs
   // Tabs - delegacao
@@ -1900,11 +1892,13 @@ window.addEventListener("load", function() {
     }
   });
 
-  document.getElementById("l-pass").addEventListener("keydown", function(ev) {
+  var lPass = document.getElementById("l-pass");
+  if(lPass) lPass.addEventListener("keydown", function(ev) {
     if(ev.key === "Enter") document.getElementById("btn-login").click();
   });
 
-  document.getElementById("btn-forgot").addEventListener("click", function() {
+  var btnForgot = document.getElementById("btn-forgot");
+  if(btnForgot) btnForgot.addEventListener("click", function() {
     var email = document.getElementById("l-email").value.trim();
     if(!email) {
       showErr("l-error", "Digite seu e-mail acima para receber o link.");
@@ -1957,6 +1951,11 @@ window.addEventListener("load", function() {
       showScreen("screen-login");
     }
   });
+
+  } catch(err) {
+    console.error("Erro no load:", err);
+    showScreen("screen-login");
+  }
 
 });
 </script>
