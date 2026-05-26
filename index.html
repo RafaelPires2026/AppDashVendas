@@ -368,6 +368,47 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 
 
 
+
+/* ══ SEÇÕES RECOLHÍVEIS ══ */
+.section-wrap { margin-bottom: 12px; }
+.stitle-btn {
+  font-family:var(--num);font-size:10px;font-weight:700;color:var(--muted);
+  letter-spacing:3px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+  width:100%;background:none;border:none;padding:0 0 8px 1px;
+  cursor:pointer;text-align:left;
+}
+.stitle-btn::after{content:'';flex:1;height:1px;background:var(--border);}
+.stitle-btn .s-chev{font-size:10px;color:var(--gold);transition:transform .25s;margin-left:4px;flex-shrink:0;}
+.stitle-btn.collapsed .s-chev{transform:rotate(-90deg);}
+.section-body{transition:opacity .2s;}
+.section-body.collapsed{display:none;}
+
+/* ══ CARD PREMIAÇÃO ══ */
+.premio-card{
+  background:linear-gradient(135deg,#1a1400,#0f0c00);
+  border:1px solid var(--gold);border-left:4px solid var(--gold);
+  border-radius:var(--R);padding:14px 16px;margin-bottom:12px;
+  box-shadow:0 4px 16px rgba(184,150,46,.2);
+}
+.premio-card.atingido{
+  background:linear-gradient(135deg,#0a1a0a,#051005);
+  border-color:var(--accent);border-left-color:var(--accent);
+  box-shadow:0 4px 16px rgba(46,125,50,.2);
+}
+.premio-tag{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.premio-card.atingido .premio-tag{color:var(--accent);}
+.premio-title{font-family:var(--num);font-size:18px;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.premio-card.atingido .premio-title{color:#4caf50;}
+.premio-row{display:flex;gap:16px;flex-wrap:wrap;}
+.premio-item{flex:1;min-width:100px;}
+.premio-lbl{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.premio-val{font-family:var(--num);font-size:22px;font-weight:800;color:var(--gold);line-height:1;}
+.premio-card.atingido .premio-val{color:#4caf50;}
+.premio-pb{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:10px;}
+.premio-pb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .7s ease;}
+.premio-card.atingido .premio-pb-fill{background:linear-gradient(90deg,#2e7d32,#4caf50);}
+
 /* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--black);border-top:1px solid var(--gold);display:flex;z-index:100;}
 .bottom-nav.hidden{display:none;}
@@ -567,8 +608,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
       <div class="kcard kcard-pipe"><div class="klbl">Pipeline ativo</div><div class="kval" id="k-pip">—</div><div class="ksub" id="k-sp">—</div></div>
     </div>
 
-        <!-- PIPELINE -->
-    <div class="stitle">Negociações</div>
+        <!-- PREMIAÇÃO -->
+    <div id="premio-card-wrap"></div>
+
+    <!-- PIPELINE -->
+    <div class="section-wrap">
+    <button class="stitle-btn" onclick="toggleSection(this)">Negociações <span class="s-chev">▼</span></button>
+    <div class="section-body">
     <div class="pmgr">
       <div class="pmhdr"><div class="pmtitle">Gestão do Pipeline</div><button class="btnadd" onclick="toggleForm()">+ Adicionar</button></div>
       <div class="aform" id="aform">
@@ -594,21 +640,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
       </div>
     </div>
 
+    </div></div><!-- /section Negociações -->
+
     <!-- CENÁRIOS -->
-    <div class="stitle">Cenários</div>
+    <div class="section-wrap">
+    <button class="stitle-btn" onclick="toggleSection(this)">Cenários <span class="s-chev">▼</span></button>
+    <div class="section-body">
     <div class="scgrid">
       <div class="sccard scp"><div class="sclbl">Pessimista</div><div class="scval" id="sc-p">—</div><div class="scsub">50% pipeline</div></div>
       <div class="sccard scb"><div class="sclbl">Realista</div><div class="scval" id="sc-b">—</div><div class="scsub">100% pipeline</div></div>
       <div class="sccard sco"><div class="sclbl">Otimista</div><div class="scval" id="sc-o">—</div><div class="scsub">Meta 🎯</div></div>
     </div>
 
+    </div></div><!-- /section Cenários -->
+
     <!-- ALERTAS -->
-    <div class="stitle">Análise</div>
+    <div class="section-wrap">
+    <button class="stitle-btn" onclick="toggleSection(this)">Análise <span class="s-chev">▼</span></button>
+    <div class="section-body">
     <div class="alert" id="al-gap"><div class="atitle" id="al-gap-t">—</div><span id="al-gap-b">—</span></div>
     <div class="alert ay"><div class="atitle">⚡ Maior oportunidade</div><span id="al-pri">—</span></div>
 
+    </div></div><!-- /section Análise -->
+
     <!-- PAINEL DE RITMO -->
-    <div class="stitle">Ritmo de vendas</div>
+    <div class="section-wrap">
+    <button class="stitle-btn" onclick="toggleSection(this)">Ritmo de vendas <span class="s-chev">▼</span></button>
+    <div class="section-body">
     <div class="rhythm-card" id="rhythm-card">
       <!-- Resumo de padrão -->
       <div class="rhythm-summary" id="rhythm-summary"></div>
@@ -626,8 +684,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
       <div class="rhythm-detail" id="rhythm-detail" style="display:none"></div>
     </div>
 
+    </div></div><!-- /section Ritmo -->
+
     <!-- RESUMO -->
-    <div class="stitle">Resumo de posição</div>
+    <div class="section-wrap">
+    <button class="stitle-btn collapsed" onclick="toggleSection(this)">Resumo de posição <span class="s-chev">▼</span></button>
+    <div class="section-body collapsed">
     <div class="rcard">
       <div class="rrow"><span>Meta do mês</span><span id="r-meta">—</span></div>
       <div class="rrow"><span>Já realizado</span><span id="r-real" style="color:var(--gold)">—</span></div>
@@ -640,8 +702,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
       <div class="rrow"><span>Meta/dia necessária</span><span id="r-day" style="color:var(--warn)">—</span></div>
     </div>
 
+    </div></div><!-- /section Resumo -->
+
     <!-- BACKUP -->
-    <div class="stitle">Dados</div>
+    <div class="section-wrap">
+    <button class="stitle-btn collapsed" onclick="toggleSection(this)">Dados <span class="s-chev">▼</span></button>
+    <div class="section-body collapsed">
     <div class="excard">
       <div style="font-size:10px;color:var(--muted);line-height:1.6">PDF para relatório · JSON para backup completo</div>
       <div class="exrow">
@@ -650,6 +716,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
         <button class="exbtn imp" onclick="triggerImport()">📥 Importar</button>
       </div>
     </div>
+
+    </div></div><!-- /section Dados -->
 
     <div style="height:10px"></div>
   </div><!-- /month-body -->
@@ -679,7 +747,14 @@ let mesAtivo=null; // key do mês sendo editado
 // ══ PERSIST ══
 
 // ══ SUPABASE CLIENT ══
-var sb = supabase.createClient("https://pryxerzjqlltkvepasbv.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InByeXhlcnpqcWxsdGt2ZXBhc2J2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMTE1MjIsImV4cCI6MjA5NDg4NzUyMn0.lnOMAecN2eddJSec3E6TnAp8P_tL48kaqLcQCuPRzLc");
+var sb = supabase.createClient("https://pryxerzjqlltkvepasbv.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InByeXhlcnpqcWxsdGt2ZXBhc2J2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMTE1MjIsImV4cCI6MjA5NDg4NzUyMn0.lnOMAecN2eddJSec3E6TnAp8P_tL48kaqLcQCuPRzLc", {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: window.localStorage
+  }
+});
 var currentUser = null;
 
 
@@ -1017,6 +1092,47 @@ function abrirMes(key){
   renderMonth();
 }
 
+// ══ TOGGLE SEÇÃO ══
+function toggleSection(btn) {
+  btn.classList.toggle('collapsed');
+  var body = btn.nextElementSibling;
+  if(body) body.classList.toggle('collapsed');
+}
+
+// ══ CARD PREMIAÇÃO ══
+function renderPremio(mes) {
+  var wrap = document.getElementById('premio-card-wrap');
+  if(!wrap) return;
+  var meta = mes.meta || 0;
+  var real = mes.realizado || 0;
+  if(meta <= 0) { wrap.innerHTML = ''; return; }
+
+  var gatilho = meta * 0.70;
+  var pctReal = real / meta;
+  var pctGatilho = Math.min((real / gatilho) * 100, 100);
+  var atingido = real >= gatilho;
+  var falta = Math.max(gatilho - real, 0);
+
+  if(atingido) {
+    wrap.innerHTML = '<div class="premio-card atingido">' +
+      '<div class="premio-tag">🏆 Premiação</div>' +
+      '<div class="premio-title">Gatilho de premiação atingido!</div>' +
+      '<div class="premio-pb"><div class="premio-pb-fill" style="width:100%"></div></div>' +
+      '</div>';
+  } else {
+    wrap.innerHTML = '<div class="premio-card">' +
+      '<div class="premio-tag">🎯 Gatilho de premiação — 70% da meta</div>' +
+      '<div class="premio-title">Falta ' + fmt(falta) + ' para a premiação</div>' +
+      '<div class="premio-row">' +
+        '<div class="premio-item"><div class="premio-lbl">Realizado</div><div class="premio-val">' + Math.round(pctReal * 100) + '%</div></div>' +
+        '<div class="premio-item"><div class="premio-lbl">Gatilho em</div><div class="premio-val">' + fmt(gatilho) + '</div></div>' +
+        '<div class="premio-item"><div class="premio-lbl">Progresso</div><div class="premio-val">' + Math.round(pctGatilho) + '%</div></div>' +
+      '</div>' +
+      '<div class="premio-pb"><div class="premio-pb-fill" style="width:' + pctGatilho + '%"></div></div>' +
+      '</div>';
+  }
+}
+
 function voltarHome(){
   mesAtivo=null;
   showScreen('screen-home');
@@ -1063,6 +1179,7 @@ function renderMonth(){
   document.getElementById('k-pip').textContent=fmtK(t.tN);
   document.getElementById('k-sp').textContent=nc+' negociação'+(nc!==1?'ões':'')+' aberta'+(nc!==1?'s':'');
 
+  renderPremio(mes);
   renderList();
   document.getElementById('tt-n').textContent=fmt(t.tN);
   document.getElementById('tt-p').textContent=fmt(t.tP);
