@@ -745,6 +745,8 @@ function load() {
             };
           });
           if(nRes.data) {
+            // Limpa negócios antes de popular para evitar duplicatas
+            Object.keys(appData.meses).forEach(function(k) { appData.meses[k].negocios = []; });
             nRes.data.forEach(function(n) {
               var mes = appData.meses[n.mes_key];
               if(mes) {
@@ -1797,10 +1799,11 @@ window.addEventListener("load", function() {
   }).catch(function() { showScreen("screen-login"); });
 
   sb.auth.onAuthStateChange(function(event, session) {
-    if(event === "SIGNED_IN" && session && session.user && !currentUser) {
+    if((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && session && session.user && !currentUser) {
       iniciarApp(session.user);
     } else if(event === "SIGNED_OUT") {
       currentUser = null;
+      appData = { meses: {}, anoAtual: new Date().getFullYear() };
       showScreen("screen-login");
     }
   });
