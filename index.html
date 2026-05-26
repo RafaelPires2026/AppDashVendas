@@ -685,6 +685,7 @@ var currentUser = null;
 
 function save() {
   if(!currentUser) return Promise.resolve();
+  if(window._loadingData) { console.warn('save() bloqueado durante load()'); return Promise.resolve(); }
   var promises = [];
   Object.keys(appData.meses).forEach(function(key) {
     var m = appData.meses[key];
@@ -729,6 +730,7 @@ function save() {
 
 function load() {
   if(!currentUser) return Promise.resolve(false);
+  window._loadingData = true;
   return sb.from('meses').select('*').eq('user_id', currentUser.id)
     .then(function(res) {
       if(!res.data || !res.data.length) return false;
@@ -764,6 +766,7 @@ function load() {
             var ms = appData.meses[k];
             ms.nextId = ms.negocios.length + 1;
           });
+          window._loadingData = false;
           return true;
         });
     })
