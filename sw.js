@@ -1,4 +1,4 @@
-const CACHE = 'rennova-v2';
+const CACHE = 'rennova-v3';
 const BASE = '/AppDashVendas';
 const ASSETS = [
   BASE + '/',
