@@ -517,6 +517,25 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <div class="footer-space"></div>
 </div>
 
+<!-- ══════════ MODAL: CONFIRMAR VENDA ══════════ -->
+<div id="modal-venda" class="modal-overlay" style="display:none;" onclick="cancelarVenda(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎉 Confirmar Venda</div>
+    <div class="modal-sub" id="mv-desc"></div>
+    <div class="modal-fields">
+      <div>
+        <label class="mf-label">Data da venda</label>
+        <input class="mf-input" type="date" id="mv-data"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="fecharModalVenda()">Cancelar</button>
+      <button class="btn-modal-ok" onclick="confirmarVenda()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ MODAL: NOVO MÊS ══════════ -->
 <div id="modal-mes" class="modal-overlay" style="display:none;" onclick="fecharModalMes(event)">
   <div class="modal-sheet">
@@ -1960,14 +1979,5 @@ window.addEventListener("load", function() {
 });
 </script>
 
-<script>
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js')
-      .then(function(reg) { console.log('SW registrado:', reg.scope); })
-      .catch(function(err) { console.log('SW erro:', err); });
-  });
-}
-</script>
 </body>
 </html>
