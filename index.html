@@ -1537,9 +1537,15 @@ function deletarNego(id){
   const n=mes.negocios.find(x=>x.id===id);
   if(!n)return;
   const wasRealizado=n.status==='fechado';
+  const supaId=n.supaId;
   mes.negocios=mes.negocios.filter(x=>x.id!==id);
   showToast('🗑 '+n.nome+(wasRealizado?' · venda removida':' removido'));
-  save();renderMonth(); // recalcularRealizado chamado dentro
+  // Deletar do Supabase se tiver ID
+  if(supaId && currentUser){
+    sb.from('negocios').delete().eq('id', supaId).eq('user_id', currentUser.id)
+      .then(function(r){ if(r.error) console.error('Erro ao deletar:', r.error); });
+  }
+  save();renderMonth();
 }
 // Pending sale waiting for date confirmation
 let _pendingVenda=null;
